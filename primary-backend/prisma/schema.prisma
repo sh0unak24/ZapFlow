@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+}
+
+model Zap {
+  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  trigger  Trigger?
+  actions  Action[]
+  zapRuns  ZapRun[]
+}
+
+model Trigger {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  zapId     String   @unique @db.Uuid
+  typeId    String   @unique @db.Uuid
+
+  zap       Zap              @relation(fields: [zapId], references: [id])
+  type      AvailableTrigger @relation(fields: [typeId], references: [id])
+}
+
+model AvailableTrigger {
+  id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String
+  triggers Trigger[]
+}
+
+model Action {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+
+  zapId             String           @db.Uuid
+  availableActionId String?          @db.Uuid
+
+  zap               Zap              @relation(fields: [zapId], references: [id])
+  availableAction   AvailableAction? @relation(fields: [availableActionId], references: [id])
+  sortingOrder        Int   @default(0)
+}
+
+model AvailableAction {
+  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String
+  actions Action[]
+}
+
+model ZapRun {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  zapId         String         @db.Uuid
+  metadata      Json
+
+  zap           Zap            @relation(fields: [zapId], references: [id])
+  zapRunOutBox  ZapRunOutBox?
+}
+
+model ZapRunOutBox {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  zapRunId  String @unique @db.Uuid
+
+  zapRun    ZapRun @relation(fields: [zapRunId], references: [id])
+}

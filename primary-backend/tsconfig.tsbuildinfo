@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/lib/prisma.ts","./src/routes/root.router.ts","./src/routes/user.router.ts","./src/routes/zap.router.ts"],"version":"5.7.2"}
