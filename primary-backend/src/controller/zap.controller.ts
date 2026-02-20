@@ -41,7 +41,7 @@ export const createZap = async (req: AuthRequest, res: Response) => {
             connect: { id: zap.id },
           },
           type: {
-            connect: { id: parsedData.data.avaialbleTriggerId },
+            connect: { id: parsedData.data.availableTriggerId },
           },
           metadata: parsedData.data.triggerMetadata ?? {},
         },
@@ -114,7 +114,7 @@ export const getZap = async (req : AuthRequest , res : Response) =>{
         if (!zaps) {
             return res.status(400).json({ message: "No Zaps Found" });
         }
-        
+
         return res.status(200).json({
             message: "Zaps found",
             zaps,

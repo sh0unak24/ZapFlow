@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const ZapCreateSchema = z.object({
-    avaialbleTriggerId : z.string(),
+    availableTriggerId : z.string(),
     triggerMetadata : z.any().optional(),
     actions : z.array(z.object({
        availableActionId : z.string(),
