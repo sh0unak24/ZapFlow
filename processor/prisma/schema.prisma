@@ -15,6 +15,7 @@ model User {
 
 model Zap {
   id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  triggerId String 
   trigger  Trigger?
   actions  Action[]
   zapRuns  ZapRun[]
@@ -23,10 +24,10 @@ model Zap {
 model Trigger {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   zapId     String   @unique @db.Uuid
-  typeId    String   @unique @db.Uuid
+  availableTriggerId String   @db.Uuid 
 
   zap       Zap              @relation(fields: [zapId], references: [id])
-  type      AvailableTrigger @relation(fields: [typeId], references: [id])
+  type      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
 }
 
 model AvailableTrigger {
@@ -44,6 +45,7 @@ model Action {
 
   zap               Zap              @relation(fields: [zapId], references: [id])
   availableAction   AvailableAction? @relation(fields: [availableActionId], references: [id])
+  sortingOrder        Int   @default(0)
 }
 
 model AvailableAction {

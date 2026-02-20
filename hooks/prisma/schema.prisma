@@ -11,23 +11,41 @@ model User {
   name     String
   email    String @unique
   password String
+  zaps     Zap[]
 }
 
 model Zap {
-  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    Int
+  user      User    @relation(fields: [userId] , references: [id])
   trigger  Trigger?
   actions  Action[]
   zapRuns  ZapRun[]
 }
 
 model Trigger {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  zapId     String   @unique @db.Uuid
-  typeId    String   @unique @db.Uuid
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  zapId                String   @unique @db.Uuid
+  availableTriggerId   String   @db.Uuid
+  metadata             Json?    
 
-  zap       Zap              @relation(fields: [zapId], references: [id])
-  type      AvailableTrigger @relation(fields: [typeId], references: [id])
+  zap   Zap              @relation(fields: [zapId], references: [id])
+  type  AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
 }
+
+model Action {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  metadata          Json?           
+
+  zapId             String           @db.Uuid
+  availableActionId String?          @db.Uuid
+  sortingOrder      Int              @default(0)
+
+  zap               Zap              @relation(fields: [zapId], references: [id])
+  availableAction   AvailableAction? @relation(fields: [availableActionId], references: [id])
+}
+
 
 model AvailableTrigger {
   id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -35,17 +53,7 @@ model AvailableTrigger {
   triggers Trigger[]
 }
 
-model Action {
-  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String
 
-  zapId             String           @db.Uuid
-  availableActionId String?          @db.Uuid
-
-  zap               Zap              @relation(fields: [zapId], references: [id])
-  availableAction   AvailableAction? @relation(fields: [availableActionId], references: [id])
-  sortingOrder        Int   @default(0)
-}
 
 model AvailableAction {
   id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid

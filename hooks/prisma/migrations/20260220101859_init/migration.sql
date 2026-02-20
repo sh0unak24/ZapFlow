@@ -11,6 +11,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Zap" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Zap_pkey" PRIMARY KEY ("id")
 );
@@ -19,9 +20,22 @@ CREATE TABLE "Zap" (
 CREATE TABLE "Trigger" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "zapId" UUID NOT NULL,
-    "typeId" UUID NOT NULL,
+    "availableTriggerId" UUID NOT NULL,
+    "metadata" JSONB,
 
     CONSTRAINT "Trigger_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Action" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" TEXT NOT NULL,
+    "metadata" JSONB,
+    "zapId" UUID NOT NULL,
+    "availableActionId" UUID,
+    "sortingOrder" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Action_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -30,16 +44,6 @@ CREATE TABLE "AvailableTrigger" (
     "name" TEXT NOT NULL,
 
     CONSTRAINT "AvailableTrigger_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Action" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "name" TEXT NOT NULL,
-    "zapId" UUID NOT NULL,
-    "availableActionId" UUID,
-
-    CONSTRAINT "Action_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -74,16 +78,16 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Trigger_zapId_key" ON "Trigger"("zapId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Trigger_typeId_key" ON "Trigger"("typeId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "ZapRunOutBox_zapRunId_key" ON "ZapRunOutBox"("zapRunId");
+
+-- AddForeignKey
+ALTER TABLE "Zap" ADD CONSTRAINT "Zap_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Trigger" ADD CONSTRAINT "Trigger_zapId_fkey" FOREIGN KEY ("zapId") REFERENCES "Zap"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Trigger" ADD CONSTRAINT "Trigger_typeId_fkey" FOREIGN KEY ("typeId") REFERENCES "AvailableTrigger"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Trigger" ADD CONSTRAINT "Trigger_availableTriggerId_fkey" FOREIGN KEY ("availableTriggerId") REFERENCES "AvailableTrigger"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Action" ADD CONSTRAINT "Action_zapId_fkey" FOREIGN KEY ("zapId") REFERENCES "Zap"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
