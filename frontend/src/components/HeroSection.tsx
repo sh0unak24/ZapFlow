@@ -1,5 +1,5 @@
 export const HeroSection = () => {
-    return <div className="bg-red-100 z-0 w-full h-screen mt-16 pt-8">
+    return <div className="bg-[#F8F6F5] z-0 w-full h-screen mt-16 pt-8">
         <div className="container mx-auto px-4">
             <div className="mt-40 flex justify-center items-center">
                 <div className="grid text-center">

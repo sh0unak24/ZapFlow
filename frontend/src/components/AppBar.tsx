@@ -1,6 +1,10 @@
+"use client"
 import Image from "next/image"
-
+import { useRouter } from "next/navigation"
 export const AppBar = () => {
+
+    const router = useRouter()
+
     return <nav className="bg-[#F8F6F5] fixed z-20 w-full border-b top-0 inset-s-0 border-amber-600">
         <div className="max-w-screen flex items-center justify-between mx-auto p-4 relative">
             {/* Left section - Logo */}
@@ -41,11 +45,15 @@ export const AppBar = () => {
             {/* Right section - Empty for balance (optional) */}
             <div className="w-50 hidden md:block">
                 <div className="flex space-x-5">
-                    <span className="text-[#334155] pt-3 text-xl font-bold">
+                    <span onClick={() => {
+                        router.push("/login")
+                    }}  className="text-[#334155] pt-2 text-xl font-bold cursor-pointer">
                         Log In
                     </span>
-                    <button className="bg-[#FF5100] px-5 py-3 rounded-xl hover:bg-[#E64900] transition-colors">
-                        <span className="text-white text-xl font-bold">
+                    <button onClick={() => {
+                        router.push("/signup")
+                    }} className="bg-[#FF5100] px-4 py-2 rounded-xl hover:bg-[#E64900] transition-colors">
+                        <span className="text-white text-lg font-bold">
                             Sign Up
                         </span>
                     </button>
