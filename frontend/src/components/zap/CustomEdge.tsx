@@ -35,30 +35,32 @@ export default function CustomEdge({ id, source, sourceX, sourceY }: CustomEdgeI
         const newNodeId = `node-${Date.now()}`;
         const sourceNode = getNodes().find((n) => n.id === source);
         if (!sourceNode) return;
-
+    
+        const stepNumber = getNodes().length + 1; 
+    
         const nodeHeight = 40;
-        const verticalGap = 80;
-
+        const verticalGap = 100;
+    
         const newNodeX = sourceNode.position.x;
         const newNodeY = sourceNode.position.y + nodeHeight + verticalGap;
-        
-        
+    
         setNodes((nds) => [
             ...nds,
             {
                 id: newNodeId,
-                type : "zapNode",
+                type: 'zapNode',
                 position: { x: newNodeX, y: newNodeY },
                 data: {
-                        label: `Action`,
-                        description : "Select the event for your zap to run",
-                        title : "Action"
-                    },
+                    label: 'Action',
+                    description: 'Select the event for your zap to run',
+                    title: 'Action',
+                    stepNumber, 
+                },
                 sourcePosition: Position.Bottom,
                 targetPosition: Position.Top,
             },
         ]);
-
+    
         setEdges(() => [
             ...getEdges().filter((e) => e.id !== id),
             {
@@ -70,7 +72,7 @@ export default function CustomEdge({ id, source, sourceX, sourceY }: CustomEdgeI
             {
                 id: `open-${newNodeId}`,
                 source: newNodeId,
-                target: newNodeId, // points to itself, we don't use targetX/Y anyway
+                target: newNodeId,
                 type: 'custom-edge',
             },
         ]);

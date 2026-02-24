@@ -1,5 +1,5 @@
 import express from "express";
-import { rootRouter } from "./routes/root.router.js";
+import { rootRouter } from "./routes/root.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";

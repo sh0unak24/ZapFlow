@@ -1,0 +1,10 @@
+import express from "express";
+import { userRouter } from "./user.routes.js";
+import { zapRouter } from "./zap.routes.js";
+import { actionRouter } from "./action.routes.js";
+import { triggerRouter } from "./trigger.routes.js";
+export const rootRouter = express.Router();
+rootRouter.use("/user", userRouter);
+rootRouter.use("/zap", zapRouter);
+rootRouter.use("/action", actionRouter);
+rootRouter.use("/trigger", triggerRouter);

@@ -52,6 +52,7 @@ model AvailableTrigger {
   id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name     String
   triggers Trigger[]
+  image    String
 }
 
 
@@ -60,6 +61,7 @@ model AvailableAction {
   id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name    String
   actions Action[]
+  image   String
 }
 
 model ZapRun {

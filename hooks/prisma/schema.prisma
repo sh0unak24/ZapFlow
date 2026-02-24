@@ -17,6 +17,7 @@ model User {
 model Zap {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId    Int
+  name      String  @default("")
   user      User    @relation(fields: [userId] , references: [id])
   trigger  Trigger?
   actions  Action[]
@@ -51,6 +52,7 @@ model AvailableTrigger {
   id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name     String
   triggers Trigger[]
+  image    String
 }
 
 
@@ -59,6 +61,7 @@ model AvailableAction {
   id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name    String
   actions Action[]
+  image   String
 }
 
 model ZapRun {

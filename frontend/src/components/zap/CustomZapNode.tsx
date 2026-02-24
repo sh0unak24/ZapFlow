@@ -1,57 +1,37 @@
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position } from "@xyflow/react";
 
 interface CustomZapNodeProps {
   data: {
     title: string;
     description: string;
+    stepNumber: number;
+    image  : string
   };
 }
 
 export default function CustomZapNode({ data }: CustomZapNodeProps) {
   return (
-    <div
-      style={{
-        width: 260,
-        background: '#ffffff',
-        border: '1px solid #e5e7eb',
-        borderRadius: 8,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-        padding: 12,
-        fontFamily: 'sans-serif',
-      }}
-    >
-      {/* Top-left title */}
-      <div
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          color: '#111827',
-        }}
-      >
+    <div className="w-65 rounded-lg border border-gray-200 bg-white p-3 shadow-[0_4px_12px_rgba(0,0,0,0.08)] font-sans">
+      <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+        <span className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">
+          {data.stepNumber}
+        </span>
+            {!data.image ? "" : (
+              <img
+              src={data.image}
+              alt={data.title}
+              className="w-10 h-10 object-cover"
+            />
+          )}
         {data.title}
       </div>
 
-      {/* Divider */}
-      <div
-        style={{
-          height: 1,
-          background: '#e5e7eb',
-          margin: '8px 0',
-        }}
-      />
+      <div className="my-2 h-px bg-gray-200" />
 
-      {/* Description */}
-      <div
-        style={{
-          fontSize: 12,
-          color: '#6b7280',
-          lineHeight: 1.4,
-        }}
-      >
+      <div className="text-xs leading-relaxed text-gray-500">
         {data.description}
       </div>
 
-      {/* Handles */}
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
     </div>
