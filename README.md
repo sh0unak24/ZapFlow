@@ -1,4 +1,4 @@
-# ⚡ Zap Flow
+# Zap Flow
 
 Zap Flow is a Zapier-style workflow automation platform that allows users to create event-driven automations by connecting triggers to one or more actions using a visual flow builder.
 
@@ -6,7 +6,7 @@ The system is built using a **microservices architecture** and an **event-driven
 
 ---
 
-## 🚀 Features
+## Features
 
 - Visual no-code workflow builder using React Flow
 - Webhook-based triggers
@@ -19,7 +19,7 @@ The system is built using a **microservices architecture** and an **event-driven
 
 ---
 
-## 🧩 Architecture Overview
+## Architecture Overview
 
 Zap Flow consists of the following services:
 
@@ -47,7 +47,7 @@ Zap Flow consists of the following services:
 
 ---
 
-## 🔄 Event Flow
+## Event Flow
 
 ```text
 Webhook / Event
