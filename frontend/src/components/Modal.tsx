@@ -175,12 +175,12 @@ export default function ZapModal({
   return (
     <div
       onClick={handleClose}
-      className="fixed inset-0 bg-black/45 backdrop-blur-sm flex items-center justify-center z-[1000]"
+      className="fixed inset-0 bg-black/45 backdrop-blur-sm flex items-center justify-center z-1000"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl w-full max-w-[520px] max-h-[80vh] flex flex-col shadow-2xl overflow-hidden"
+        className="bg-white rounded-2xl w-full max-w-130 max-h-[80vh] flex flex-col shadow-2xl overflow-hidden"
       >
         {/* Header — always visible */}
         <div className="px-7 pt-7 pb-5 border-b border-gray-100">
@@ -256,7 +256,7 @@ export default function ZapModal({
                       : "hover:border-blue-600 hover:bg-blue-50"
                   }`}
                 >
-                  <div className="w-[42px] h-[42px] rounded-xl overflow-hidden shrink-0 border border-gray-100 flex items-center justify-center bg-gray-50">
+                  <div className="w-10.5 h-10.5 rounded-xl overflow-hidden shrink-0 border border-gray-100 flex items-center justify-center bg-gray-50">
                     <img
                       src={item.image}
                       alt={item.name}

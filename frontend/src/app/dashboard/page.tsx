@@ -49,7 +49,7 @@ export default function Dashboard() {
       <AppBar />
 
       <div className="flex justify-center pt-10">
-        <div className="w-full max-w-screen-lg">
+        <div className="w-full max-w-5xl">
 
           {loading ? (
             <div className="flex flex-col items-center gap-3 mt-20">
