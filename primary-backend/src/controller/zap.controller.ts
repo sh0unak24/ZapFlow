@@ -24,6 +24,7 @@ export const createZap = async (req: AuthRequest, res: Response) => {
           user: {
             connect: { id: req.user!.id },
           },
+          name : parsedData.data.zapName,
           actions: {
             create: parsedData.data.actions.map((x, index) => ({
               name: x.actionName,

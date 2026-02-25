@@ -58,7 +58,6 @@ export default function Dashboard() {
             </div>
           ) : (
             <>
-              {/* Header */}
               <div className="flex justify-between items-center mb-6">
                 <span className="text-2xl font-bold">
                   My Zaps
@@ -100,24 +99,20 @@ export default function Dashboard() {
                             key={zap.id}
                             className="border-t hover:bg-gray-50 transition"
                         >
-                            {/* Zap Name */}
                             <td className="px-4 py-3 font-medium">
-                            {zap.name}
+                              {zap.name}
                             </td>
 
-                            {/* Trigger Name */}
                             <td className="px-4 py-3 text-gray-600">
-                            {zap.trigger.type?.name ?? "Unknown"}
+                              {zap.trigger.type?.name ?? "Unknown"}
                             </td>
 
-                            {/* Action Names */}
                             <td className="px-4 py-3 text-gray-600">
-                            {zap.actions.map(action => action.name).join(", ")}
+                              {zap.actions.map(action => action.name).join(", ")}
                             </td>
 
-                            {/* Action Count */}
                             <td className="px-4 py-3 text-right text-gray-500">
-                            {zap.actions.length}
+                              {zap.actions.length}
                             </td>
                         </tr>
                         ))}

@@ -1,13 +1,31 @@
 import { Handle, Position } from "@xyflow/react";
 
-interface CustomZapNodeProps {
-  data: {
+// interface CustomZapNodeProps {
+//   data: {
+//     title: string;
+//     description: string;
+//     stepNumber: number;
+//     image  : string,
+//     availableActionId : string,
+//     availableTriggerId : string
+//   };
+// }
+
+type CustomZapNodeProps = {
+  data : {
+    stepNumber: number;
     title: string;
     description: string;
-    stepNumber: number;
-    image  : string
-  };
-}
+    image?: string;
+
+    // backend-related
+    availableTriggerId?: string;
+    availableActionId?: string;
+    actionName?: string;
+
+    metadata?: Record<string, any>;
+  }
+};
 
 export default function CustomZapNode({ data }: CustomZapNodeProps) {
   return (
