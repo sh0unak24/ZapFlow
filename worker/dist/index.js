@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const kafkajs_1 = require("kafkajs");
 const prisma_1 = require("./lib/prisma");
+const parse_1 = require("./parse");
 const kafka = new kafkajs_1.Kafka({
     clientId: 'outbox-processor',
     brokers: ['localhost:9092']
@@ -55,14 +56,20 @@ async function main() {
                 console.log("No action to execute");
                 return;
             }
+            const zapRunMetadata = zapRunDetails?.metadata;
+            console.log(`ZAP RUN METADAT IS ${JSON.stringify(zapRunMetadata)}`);
             switch (currentAction.availableAction?.name) {
                 case "Email":
-                    console.log("Sending email");
-                    console.log(JSON.stringify(currentAction));
+                    console.log("-----------------------------------------");
+                    console.log(`CURRENT ACTION METADAT IS ${JSON.stringify(currentAction.metadata)}`);
+                    const body = (0, parse_1.parse)(currentAction.metadata.body, zapRunMetadata);
+                    const to = (0, parse_1.parse)(currentAction.metadata.email, zapRunMetadata);
+                    console.log(`Sending email to ${to} with body ${body}`);
                     break;
                 case "Solana":
-                    console.log("Sending solana");
-                    console.log(JSON.stringify(currentAction));
+                    const amount = (0, parse_1.parse)(currentAction.metadata.amount, zapRunMetadata);
+                    const address = (0, parse_1.parse)(currentAction.metadata.address, zapRunMetadata);
+                    console.log(`Sending out SOL ${amount} to address ${address}`);
                     break;
                 default:
                     console.log("Unknown action type");

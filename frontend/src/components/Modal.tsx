@@ -99,7 +99,7 @@ function SolanaSelector({ onConfirm }: { onConfirm: (metadata: SolanaMetadata) =
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-gray-600">Amount (SOL)</label>
         <input
-          type="number"
+          type="text"
           placeholder="0.00"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}

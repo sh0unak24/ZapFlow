@@ -1,6 +1,7 @@
 import { Kafka } from "kafkajs"
 import { prisma } from "./lib/prisma";
 import { JsonObject } from "@prisma/client/runtime/client";
+import {parse} from "./parse"
 
 const kafka = new Kafka({
     clientId: 'outbox-processor',
@@ -67,23 +68,25 @@ async function main(){
                 console.log("No action to execute");
                 return;
             }
+            const zapRunMetadata = zapRunDetails?.metadata;
+            //console.log(`ZAP RUN METADAT IS ${JSON.stringify(zapRunMetadata)}`)
 
             switch (currentAction.availableAction?.name) {
                 case "Email":
-                    const emailMetadata = (currentAction.metadata as JsonObject)
-                    const to = emailMetadata.to
-                    const body = emailMetadata.body
+                    //console.log("-----------------------------------------")
+                    //console.log(`CURRENT ACTION METADAT IS ${JSON.stringify(currentAction.metadata)}`)
+                    const body = parse((currentAction.metadata as JsonObject).body as string , zapRunMetadata) 
+                    const to = parse((currentAction.metadata as JsonObject).email as string , zapRunMetadata) 
 
-                    const zapRunMetadata = zapRunDetails.metadata;
-                    
-                    console.log("Sending email")
+                    console.log(`Sending email to ${to} with body ${body}`)
                     break;
               
                 case "Solana":
-                    const solanaMetadata = (currentAction.metadata as JsonObject)
-                    const amount = solanaMetadata.amont
-                    const solAddress = solanaMetadata.address
-                    console.log("Sending solana")
+
+                    const amount = parse((currentAction.metadata as JsonObject).amount as string , zapRunMetadata) 
+                    const address = parse((currentAction.metadata as JsonObject).address as string , zapRunMetadata) 
+
+                    console.log(`Sending out SOL ${amount} to address ${address}`)
                   break;
               
                 default:
