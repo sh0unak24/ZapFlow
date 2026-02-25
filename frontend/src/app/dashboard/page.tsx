@@ -8,11 +8,12 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config"
 import { Zap } from "../types/zap"
 import { useRouter } from "next/navigation"
+import { HOOKS_URL } from "../config"
 
 function useZaps() {
   const [loading, setLoading] = useState(true)
   const [zaps, setZaps] = useState<Zap[]>([])
-  
+
   useEffect(() => {
     const fetchZaps = async () => {
       try {
@@ -39,6 +40,22 @@ function useZaps() {
 export default function Dashboard() {
   const { loading, zaps } = useZaps()
   const router = useRouter()
+  const [userId , setUserId] = useState<string | "">("")
+
+
+  useEffect(() => {
+    const me = async () => {
+      const user = await axios.get(`${BACKEND_URL}/api/v1/user/me` , {
+        withCredentials : true
+      })
+      setUserId(user.data.user.id)
+      console.log(JSON.stringify(user))
+    }
+    
+    me();
+  }, [])
+
+  const NEW_HOOKS_URL = userId ? `${HOOKS_URL}/${userId}` : "";
 
   function routeUser(){
     router.push("dashboard/zap/create")
@@ -85,7 +102,7 @@ export default function Dashboard() {
                                 Actions
                             </th>
                             <th className="text-right px-4 py-3 text-sm font-semibold text-gray-700">
-                                Count
+                                WebHook Url
                             </th>
                         </tr>
                     </thead>
@@ -112,7 +129,8 @@ export default function Dashboard() {
                             </td>
 
                             <td className="px-4 py-3 text-right text-gray-500">
-                              {zap.actions.length}
+                              {/* {`${HOOKS_URL}/${userId}/${zap.id}`} */}
+                              {`${NEW_HOOKS_URL}/${zap.id}`}
                             </td>
                         </tr>
                         ))}
