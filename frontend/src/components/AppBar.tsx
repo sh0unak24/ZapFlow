@@ -16,7 +16,6 @@ export const AppBar = () => {
                 </span>
             </a>
 
-            {/* Center section - Navigation */}
             <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:block">
                 <ul className="flex font-medium space-x-8">
                     <li>
@@ -42,7 +41,6 @@ export const AppBar = () => {
                 </ul>
             </div>
 
-            {/* Right section - Empty for balance (optional) */}
             <div className="w-50 hidden md:block">
                 <div className="flex space-x-5">
                     <span onClick={() => {

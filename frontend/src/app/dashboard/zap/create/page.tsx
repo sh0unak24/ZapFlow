@@ -117,6 +117,7 @@ export default function ZapFlowCanvas() {
             actions: actionNodes.map((action) => ({
             availableActionId: action.data.availableActionId,
             actionName: action.data.title,
+            actionMetadata : action.data.metadata
             })),
         };
       }
@@ -124,7 +125,7 @@ export default function ZapFlowCanvas() {
       async function createZap() {
         try {
             const payload = buildZapPayload();
-      
+            console.log(`Payload for the api is ${JSON.stringify(payload)}`)
             await axios.post(
                 `${BACKEND_URL}/api/v1/zap`,
                 payload,
@@ -164,8 +165,6 @@ export default function ZapFlowCanvas() {
     return (
         <div className="w-full">
             <AppBar />
-            {error ? toast.error("Error , Please try again") : ""}
-            
             <div className="h-screen min-h-screen w-full border rounded-lg">
             <div className="flex items-end justify-end gap-6 mt-24 mr-10">
             <div className="flex flex-col gap-1">
@@ -182,30 +181,12 @@ export default function ZapFlowCanvas() {
                 />
             </div>
 
-            <button
-                onClick={createZap}
-                className="
-                inline-flex
-                items-center
-                justify-center
-                rounded-lg
-                bg-purple-600
-                px-6
-                py-2.5
-                text-sm
-                font-semibold
-                text-white
-                shadow-sm
-                transition
-                hover:bg-purple-700
-                active:scale-[0.98]
-                focus:outline-none
-                focus:ring-2
-                focus:ring-purple-500/40
-                "
-            >
-                Publish
-            </button>
+                <button
+                    onClick={createZap}
+                    className="inline-flex items-center justify-center rounded-lg bg-purple-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-purple-700 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                    >
+                    Publish
+                </button>
             </div>
                 <ReactFlow
                     nodes={nodes}
@@ -229,7 +210,7 @@ export default function ZapFlowCanvas() {
                 type={modalType}
                 onClose={() => setModalOpen(false)}
                 items={modalType === "trigger" ? triggers : actions}
-                onSelect={(item) => {
+                onSelect={(item , metadata) => {
                     setNodes((nds) =>
                         nds.map((n) =>
                             n.id === selectedNodeId
@@ -249,7 +230,7 @@ export default function ZapFlowCanvas() {
                                         actionName:
                                             modalType === "action" ? item.name : n.data.title,
 
-                                        metadata: {},
+                                        metadata
                                     },
                                   }
                                 : n

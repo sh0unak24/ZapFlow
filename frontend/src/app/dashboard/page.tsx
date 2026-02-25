@@ -104,7 +104,7 @@ export default function Dashboard() {
                             </td>
 
                             <td className="px-4 py-3 text-gray-600">
-                              {zap.trigger.type?.name ?? "Unknown"}
+                              {zap.trigger?.type?.name ?? "Unknown"}
                             </td>
 
                             <td className="px-4 py-3 text-gray-600">
