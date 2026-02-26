@@ -1,7 +1,10 @@
+require('dotenv').config()
+
 import { Kafka } from "kafkajs"
 import { prisma } from "./lib/prisma";
 import { JsonObject } from "@prisma/client/runtime/client";
 import {parse} from "./parse"
+import { sendEmail } from "./email";
 
 const kafka = new Kafka({
     clientId: 'outbox-processor',
@@ -79,6 +82,7 @@ async function main(){
                     const to = parse((currentAction.metadata as JsonObject).email as string , zapRunMetadata) 
 
                     console.log(`Sending email to ${to} with body ${body}`)
+                    await sendEmail(to , body)
                     break;
               
                 case "Solana":

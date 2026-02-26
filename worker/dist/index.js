@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 const kafkajs_1 = require("kafkajs");
 const prisma_1 = require("./lib/prisma");
 const parse_1 = require("./parse");
+const email_1 = require("./email");
 const kafka = new kafkajs_1.Kafka({
     clientId: 'outbox-processor',
     brokers: ['localhost:9092']
@@ -57,14 +59,15 @@ async function main() {
                 return;
             }
             const zapRunMetadata = zapRunDetails?.metadata;
-            console.log(`ZAP RUN METADAT IS ${JSON.stringify(zapRunMetadata)}`);
+            //console.log(`ZAP RUN METADAT IS ${JSON.stringify(zapRunMetadata)}`)
             switch (currentAction.availableAction?.name) {
                 case "Email":
-                    console.log("-----------------------------------------");
-                    console.log(`CURRENT ACTION METADAT IS ${JSON.stringify(currentAction.metadata)}`);
+                    //console.log("-----------------------------------------")
+                    //console.log(`CURRENT ACTION METADAT IS ${JSON.stringify(currentAction.metadata)}`)
                     const body = (0, parse_1.parse)(currentAction.metadata.body, zapRunMetadata);
                     const to = (0, parse_1.parse)(currentAction.metadata.email, zapRunMetadata);
                     console.log(`Sending email to ${to} with body ${body}`);
+                    await (0, email_1.sendEmail)(to, body);
                     break;
                 case "Solana":
                     const amount = (0, parse_1.parse)(currentAction.metadata.amount, zapRunMetadata);
